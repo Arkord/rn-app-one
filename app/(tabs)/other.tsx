@@ -2,6 +2,7 @@ import { View, StyleSheet, Text, TextInput, Button, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaProvider, useSafeAreaInsets  } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
+import regeneratorRuntime from "regenerator-runtime";
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -11,7 +12,7 @@ export default function Other() {
   const [number, onChangeNumber] = useState('');
   const storage = new Storage({
     size: 1000,
-    storageBackend: AsyncStorage,
+    storageBackend: AsyncStorage, //AsyncStorage,
     defaultExpires: 1000 * 3600 * 24,
     sync: {
 
