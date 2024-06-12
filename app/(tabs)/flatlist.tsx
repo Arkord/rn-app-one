@@ -1,5 +1,5 @@
-import { View, Text, FlatList, StyleSheet, StatusBar, SafeAreaView } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, StyleSheet, StatusBar, SafeAreaView, ActivityIndicator } from 'react-native'
+import React, { useState, useEffect } from 'react'
 
 const DATA = [
     {
@@ -16,21 +16,62 @@ const DATA = [
     },
   ];
 
+  // const getUsersFromApi = () => {
+  //   return fetch('https://reqres.in/api/users?page=2')
+  //     .then(response => response.json())
+  //     .then(json => {
+  //       console.log(json)
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // };
+
 type ItemProps = {title: string};
 
-  const Item = ({title}: ItemProps) => (
+  const Item = ({item} : any) => (
     <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{item.first_name}</Text>
     </View>
   );
 
 const Flatlist = () => {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('https://reqres.in/api/users?page=2');
+      const json = await response.json();
+      console.log(json.data);
+
+      setUsers(json.data);
+      setLoading(false);
+    }
+    catch(error) {
+      console.error(error);
+      setLoading(false);
+    }
+  }
+
+  // Usar hook useEffect para llamar fetchData al iniciar el compomente
+  useEffect(() => {
+    fetchData();
+  }), [];
+
+  if(loading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={DATA}
-        renderItem={({item}) => <Item title={item.title} />}
-        keyExtractor={item => item.id}
+        data={users}
+        renderItem={Item}
       />
     </SafeAreaView>
   )
@@ -49,6 +90,11 @@ const styles = StyleSheet.create({
     },
     title: {
       fontSize: 32,
+    },
+    loading: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });
 

@@ -2,57 +2,58 @@ import { View, StyleSheet, Text, TextInput, Button, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaProvider, useSafeAreaInsets  } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
+import "core-js/stable";
 import regeneratorRuntime from "regenerator-runtime";
-import Storage from 'react-native-storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import Storage from 'react-native-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Other() {
   const insets = useSafeAreaInsets();
   const [text, onChangeText] = useState('Useless Text');
   const [number, onChangeNumber] = useState('');
-  const storage = new Storage({
-    size: 1000,
-    storageBackend: AsyncStorage, //AsyncStorage,
-    defaultExpires: 1000 * 3600 * 24,
-    sync: {
+  // const storage = new Storage({
+  //   size: 1000,
+  //   storageBackend: window.length, //AsyncStorage,
+  //   defaultExpires: 1000 * 3600 * 24,
+  //   sync: {
 
-    }
-  });
-  const onSave = () => {
-    storage.save({
-      key: 'nombre',
-      data: text,
-      expires: 1000 * 3600
-    });
-  }
-  const onGet = () => {
-    storage
-  .load({
-    key: 'nombre',
-    autoSync: true,
-    syncInBackground: true,
-    syncParams: {
-      extraFetchOptions: {
-      },
-      someFlag: true
-    }
-  })
-  .then(ret => {
-    //console.log(ret.userid);
-    alert(ret)
-  })
-  .catch(err => {
-    console.warn(err.message);
-    switch (err.name) {
-      case 'NotFoundError':
-        // TODO;
-        break;
-      case 'ExpiredError':
-        // TODO
-        break;
-    }
-  });
-  }
+  //   }
+  // });
+  // const onSave = () => {
+  //   storage.save({
+  //     key: 'nombre',
+  //     data: text,
+  //     expires: 1000 * 3600
+  //   });
+  // }
+  // const onGet = () => {
+  //   storage
+  // .load({
+  //   key: 'nombre',
+  //   autoSync: true,
+  //   syncInBackground: true,
+  //   syncParams: {
+  //     extraFetchOptions: {
+  //     },
+  //     someFlag: true
+  //   }
+  // })
+  // .then(ret => {
+  //   //console.log(ret.userid);
+  //   alert(ret)
+  // })
+  // .catch(err => {
+  //   console.warn(err.message);
+  //   switch (err.name) {
+  //     case 'NotFoundError':
+  //       // TODO;
+  //       break;
+  //     case 'ExpiredError':
+  //       // TODO
+  //       break;
+  //   }
+  // });
+  // }
 
   return (
     <SafeAreaProvider style={{ backgroundColor: "#000000"}}>
@@ -80,12 +81,10 @@ export default function Other() {
 
       <Button
         title='Guardar datos'
-        onPress={onSave}
       />
 
 <Button
         title='Obtener datos'
-        onPress={onGet}
       />
 
       </View>
